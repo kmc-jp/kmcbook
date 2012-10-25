@@ -1,0 +1,4 @@
+*.log
+
+#generated files
+kmcbook.cls
