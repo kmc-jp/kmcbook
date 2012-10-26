@@ -47,7 +47,7 @@
 %<*driver>
 \ProvidesFile{kmcclasses.dtx}
 %</driver>
-  [2009/08/23 okumura]
+%%  [2009/08/23 okumura]
 %<*driver>
 \documentclass{kmcarticle}
 \usepackage{doc}
@@ -3134,10 +3134,10 @@
       \addcontentsline{toc}{chapter}%
         {\protect\numberline
         {\if@english\thechapter\else\@chapapp\thechapter\@chappos\fi}%
-        #1}%
-    \else\addcontentsline{toc}{chapter}{#1}\fi
+        #1\@makechapterauthortoc}%
+    \else\addcontentsline{toc}{chapter}{#1\@makechapterauthortoc}\fi
   \else
-    \addcontentsline{toc}{chapter}{#1}%
+    \addcontentsline{toc}{chapter}{#1\@makechapterauthortoc}%
   \fi
   \chaptermark{#1}%
   \addtocontents{lof}{\protect\addvspace{10\p@}}%
@@ -3147,7 +3147,9 @@
   \else
     \@makechapterhead{#2}%
     \@afterheading
-  \fi}
+  \fi
+  \global\let\@chapterauthor\relax
+  \global\let\@chapterauthortoc\relax}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3169,6 +3171,7 @@
     \fi
     \interlinepenalty\@M
     \Huge \headfont #1\par\nobreak
+    \@makechapterauthor
     \vskip 3\Cvs}} % 欧文は40pt
 %    \end{macrocode}
 % \end{macro}
@@ -3184,8 +3187,10 @@
   \if@twocolumn
     \@topnewpage[\@makeschapterhead{#1}]%
   \else
-    \@makeschapterhead{#1}\@afterheading
-  \fi}
+    \@makeschapterhead{#1}\@afterheading%
+  \fi
+  \global\let\@chapterauthor\relax
+  \global\let\@chapterauthortoc\relax}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -3200,8 +3205,58 @@
     \normalfont
     \interlinepenalty\@M
     \Huge \headfont #1\par\nobreak
+    \@makechapterauthor
     \vskip 3\Cvs}} % 欧文は40pt
 %</book>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\chapterauthor}
+%
+% 章の著者を設定します。
+%
+%    \begin{macrocode}
+\newcommand*{\chapterauthor}[2][\relax]{
+  \gdef\@chapterauthor{#2}%
+  \ifx\relax#1
+    \gdef\@chapterauthortoc{#2}%
+  \else
+    \gdef\@chapterauthortoc{#1}%
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@chapterauthor}
+% \begin{macro}{\@chapterauthortoc}
+%
+% 章の著者を保持します。
+%
+%    \begin{macrocode}
+\let\@chapterauthor\relax
+\let\@chapterauthortoc\relax
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\@makechapterauthor}
+%
+% 章の著者を出力します。
+%
+%    \begin{macrocode}
+\def\@makechapterauthor{
+  \ifx\relax\@chapterauthor\else
+    {\flushright\normalfont\large\headfont\@chapterauthor\endflushright\par\nobreak}%
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@makechapterauthortoc}
+%
+% 目次用に章の著者を出力します。
+%
+%    \begin{macrocode}
+\def\@makechapterauthortoc{
+  \ifx\relax\@chapterauthortoc\else\space(\@chapterauthortoc)\fi}
 %    \end{macrocode}
 % \end{macro}
 %
