@@ -1,7 +1,4 @@
 LATEX=platex
 
-TARGET=kmcbook.cls
-SOURCE=kmcclasses.ins
-
-$(TARGET): $(SOURCE)
+kmcbook.cls: kmcclasses.ins kmcclasses.dtx
 	$(LATEX) $<
