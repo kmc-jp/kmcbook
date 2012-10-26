@@ -3148,6 +3148,7 @@
     \@makechapterhead{#2}%
     \@afterheading
   \fi
+  \gdef\@chaptername{#1}
   \global\let\@chapterauthor\relax
   \global\let\@chapterauthortoc\relax}
 %    \end{macrocode}
@@ -3189,6 +3190,7 @@
   \else
     \@makeschapterhead{#1}\@afterheading%
   \fi
+  \gdef\@chaptername{#1}
   \global\let\@chapterauthor\relax
   \global\let\@chapterauthortoc\relax}
 %    \end{macrocode}
@@ -3229,13 +3231,22 @@
 % \begin{macro}{\@chapterauthor}
 % \begin{macro}{\@chapterauthortoc}
 %
-% 章の著者を保持します。
+% 章の著者を記憶します。
 %
 %    \begin{macrocode}
 \let\@chapterauthor\relax
 \let\@chapterauthortoc\relax
 %    \end{macrocode}
 % \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\@chaptername}
+%
+% 章の名前を記憶します。
+%
+%    \begin{macrocode}
+\let\@chaptername\relax
+%    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\@makechapterauthor}
