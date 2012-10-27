@@ -27,7 +27,7 @@
 %  Copyright 1995-1999 ASCII Corporation.
 %
 % \fi
-% \CheckSum{5492}
+% \CheckSum{0}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -55,7 +55,8 @@
 %<*driver>
 \ProvidesFile{kmcclasses.dtx}
 %</driver>
-%%  [2009/08/23 okumura]
+  [2012/10/26 hanazuki]
+%%  [2011/05/10 okumura]
 %<*driver>
 \documentclass{kmcarticle}
 \usepackage{doc}
@@ -898,6 +899,9 @@
 % さらに2005/12/01版のLaTeXに対応したpLaTeXに対応しました
 % （Thanks: ymtさん）。
 %
+% [2010-03-14] |http://oku.edu.mie-u.ac.jp/tex/mod/forum/discuss.php?d=411|
+% での山本さんのご指摘に従って修正しました。
+%
 %    \begin{macrocode}
 \def\reDeclareMathAlphabet#1#2#3{%
   \edef\@tempa{\expandafter\@gobble\string#2}%
@@ -966,15 +970,6 @@
   \AtBeginDocument{%
     \reDeclareMathAlphabet{\mathrm}{\@mathrm}{\@mathmc}
     \reDeclareMathAlphabet{\mathbf}{\@mathbf}{\@mathgt}}
-\else
-  \DeclareRobustCommand{\mathmc}{%
-    \@latex@error{Command \noexpand\mathmc invalid with\space
-       `disablejfam' class option.}\@eha
-  }
-  \DeclareRobustCommand{\mathgt}{%
-    \@latex@error{Command \noexpand\mathgt invalid with\space
-       `disablejfam' class option.}\@eha
-  }
 \fi
 %    \end{macrocode}
 %
@@ -1008,9 +1003,10 @@
 \prebreakpenalty\jis"2149=10000      % 5000   ”
 %    \end{macrocode}
 %
-% 「〒515」の記号と数字の間に四分アキが入らないようにします。
+% 「\TeX！」「〒515」の記号と数字の間に四分アキが入らないようにします。
 %
 %    \begin{macrocode}
+\inhibitxspcode`！=1
 \inhibitxspcode`〒=2
 %    \end{macrocode}
 %
@@ -1033,7 +1029,7 @@
 \xspcode`\%=3
 %    \end{macrocode}
 % 
-% これ以外にT1エンコーディングで80〜ffの文字もすべて欧文文字ですにで，
+% これ以外にT1エンコーディングで80〜ffの文字もすべて欧文文字ですので，
 % 両側の和文文字との間にスペースが入らなければなりません。
 % 
 %    \begin{macrocode}
@@ -1267,6 +1263,8 @@
 %
 % [2008-02-18] |english| オプションで最初の段落のインデントをしないようにしました。
 %
+% TODO: Hasumiさん [qa:54539] のご指摘は考慮中です。
+%
 %    \begin{macrocode}
 \newif\ifnarrowbaselines
 \if@english
@@ -1321,10 +1319,13 @@
 %
 % [2003-02-16] ちょっと変えました。
 %
+% [2009-08-26] \TeX\ Q\,\&\,A 52569から始まる議論について逡巡して
+% いましたが，結局，微調節してみることにしました。
+%
 %    \begin{macrocode}
-  \abovedisplayskip 10\p@ \@plus3\p@ \@minus4\p@
+  \abovedisplayskip 11\p@ \@plus3\p@ \@minus4\p@
   \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayskip \abovedisplayskip
+  \belowdisplayskip 9\p@ \@plus3\p@ \@minus4\p@
   \belowdisplayshortskip \belowdisplayskip
 %    \end{macrocode}
 %
@@ -2268,9 +2269,12 @@
 %    \end{macrocode}
 %
 % 次は book の場合です。
+% [2011-05-10] しっぽ愛好家さん [qa:6370] のパッチを取り込ませていただきました
+% （北見さん [qa:55896] のご指摘ありがとうございます）。
 %
 %    \begin{macrocode}
 %<*book>
+\newif\if@omit@number
 \def\ps@headings{%
   \let\@oddfoot\@empty
   \let\@evenfoot\@empty
@@ -2285,7 +2289,9 @@
   \def\chaptermark##1{\markboth{%
     \ifnum \c@secnumdepth >\m@ne
       \if@mainmatter
-        \@chapapp\thechapter\@chappos\hskip1zw
+        \if@omit@number\else
+          \@chapapp\thechapter\@chappos\hskip1zw
+        \fi
       \fi
     \fi
     ##1}{}}%
@@ -3136,7 +3142,9 @@
   \if@openright\cleardoublepage\else\clearpage\fi
   \global\@topnum\z@
   \if@english \@afterindentfalse \else \@afterindenttrue \fi
-  \secdef\@chapter\@schapter}
+  \secdef
+    {\@omit@numberfalse\@chapter}%
+    {\@omit@numbertrue\@schapter}}
 %    \end{macrocode}
 % \end{macro}
 %
