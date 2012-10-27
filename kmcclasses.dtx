@@ -3023,7 +3023,8 @@
     \markboth{}{}\par}%
   \nobreak
   \vskip 3ex
-  \@afterheading}
+  \@afterheading%
+  \gdef\@partname{#1}}
 %</!book>
 %    \end{macrocode}
 %
@@ -3048,6 +3049,7 @@
       \par\vskip20\p@
     \fi
     \Huge \headfont #2\par}%
+  \gdef\@partname{#1}
   \@endpart}
 %</book>
 %    \end{macrocode}
@@ -3066,7 +3068,8 @@
     \huge \headfont #1\par}%
   \nobreak
   \vskip 3ex
-  \@afterheading}
+  \@afterheading%
+  \gdef\@partname{#1}}
 %</!book>
 %<*book>
 \def\@spart#1{{%
@@ -3074,6 +3077,7 @@
     \interlinepenalty \@M
     \normalfont
     \Huge \headfont #1\par}%
+  \gdef\@partname{#1}
   \@endpart}
 %</book>
 %    \end{macrocode}
@@ -3097,6 +3101,15 @@
     \twocolumn
   \fi}
 %</book>
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@partname}
+%
+% 現在の部の名前を保持します。
+%
+%    \begin{macrocode}
+\let\@partname\relax
 %    \end{macrocode}
 % \end{macro}
 %
