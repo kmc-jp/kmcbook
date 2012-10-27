@@ -3162,6 +3162,7 @@
     \@afterheading
   \fi
   \gdef\@chaptername{#1}
+  \@endchapter%
   \global\let\@chapterauthor\relax
   \global\let\@chapterauthortoc\relax}
 %    \end{macrocode}
@@ -3204,6 +3205,7 @@
     \@makeschapterhead{#1}\@afterheading%
   \fi
   \gdef\@chaptername{#1}
+  \@endchapter%
   \global\let\@chapterauthor\relax
   \global\let\@chapterauthortoc\relax}
 %    \end{macrocode}
@@ -3225,6 +3227,16 @@
 %</book>
 %    \end{macrocode}
 % \end{macro}
+%
+% \begin{macro}{\@endchapter}
+%
+% 章の見出しの後に実行されます。
+%
+%    \begin{macrocode}
+\let\@endchapter\relax
+%    \end{macrocode}
+% \end{macro}
+%
 %
 % \begin{macro}{\chapterauthor}
 %
