@@ -76,7 +76,7 @@ begin
     o.on('--font FONT', 'Font used for spine printing', &opt.method(:font=))
     o.on('--language LANGTAG', 'Language', &opt.method(:language=))
     o.on('--indent INDENT', 'Indent', Unit, &opt.method(:indent=))
-    o.on('--dpi DPI', 'Resolution for the output image', &opt.method(:dpi=))
+    o.on('--dpi DPI', 'Resolution for the output image', Integer, &opt.method(:dpi=))
     o.on('--margin MARGIN', Unit, 'Margin', &opt.method(:margin=))
     o.on('--clipping CLIPPING', Unit, 'Clipping width arround cover images', &opt.method(:clipping=))
     o.on('--padding PADDING', 'Padding width', &opt.method(:padding=))
