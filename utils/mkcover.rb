@@ -45,7 +45,7 @@ Opt = Struct.new(:front, :back, :title, :author,
   private
   Defaults = {
     tombo: true,
-    font: 'Sans Bold 48',
+    font: 'Sans Bold 16',
     language: 'ja-jp',
     thickness: 8.mm,
     width: 182.mm,
@@ -149,18 +149,19 @@ begin
     ctx = Context.new surface
     
     layout = ctx.create_pango_layout
+    layout.context.resolution = dpi
     
     font = Pango::FontDescription.new opt.font
     metrics = layout.context.get_metrics(font, Pango::Language.new(opt.language))
-    fontheight = (metrics.ascent + metrics.descent) / Pango::SCALE
+    fontheight = (metrics.ascent) / Pango::SCALE
+    layout.font_description = font
     
     ctx.move_to((surface.width + fontheight) / 2, 0)
     ctx.rotate(Math::PI / 2)
     
-    layout.width = surface.height * Pango::SCALE
     layout.context.language = Pango::Language.new(opt.language)
     layout.context.base_gravity = :east
-    layout.font_description = font
+    layout.width = surface.height * Pango::SCALE
     layout.indent = opt.indent.to_dots(dpi) * Pango::SCALE
 
     if opt.title
