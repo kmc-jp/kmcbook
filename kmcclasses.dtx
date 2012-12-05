@@ -159,6 +159,16 @@
 %    \end{macrocode}
 % \end{macro}
 %
+% \begin{macro}{\if@partpages}
+%
+% これを真にすると部ごとに扉を出力します
+%
+%    \begin{macrocode}
+\newif\if@partpages
+\@partpagestrue
+%    \end{macrocode}
+% \end{macro}
+%
 % \begin{macro}{\if@openright}
 %
 % |\chapter|，|\part| を奇数ページ起こしにするかどうかです。
@@ -378,6 +388,14 @@
 %    \begin{macrocode}
 \DeclareOption{titlepage}{\@titlepagetrue}
 \DeclareOption{notitlepage}{\@titlepagefalse}
+%    \end{macrocode}
+%
+% \paragraph{扉}
+% \texttt{partpages} で部ごとに扉を出力します
+%
+%    \begin{macrocode}
+\DeclareOption{partpages}{\@partpagestrue}
+\DeclareOption{nopartpages}{\@partpagesfalse}
 %    \end{macrocode}
 %
 % \paragraph{右左起こし}
@@ -3002,14 +3020,16 @@
   \else
     \clearpage
   \fi
-  \thispagestyle{empty}% 欧文用標準スタイルでは plain
-  \if@twocolumn
-    \onecolumn
-    \@restonecoltrue
-  \else
-    \@restonecolfalse
+  \if@partpages
+    \thispagestyle{empty}% 欧文用標準スタイルでは plain
+    \if@twocolumn
+      \onecolumn
+      \@restonecoltrue
+    \else
+      \@restonecolfalse
+    \fi
+    \null\vfil
   \fi
-  \null\vfil
   \secdef\@part\@spart}
 %</book>
 %    \end{macrocode}
@@ -3034,19 +3054,22 @@
     \addcontentsline{toc}{part}{#1}%
   \fi
   \markboth{}{}%
-  {\parindent\z@
-    \raggedright
-    \interlinepenalty \@M
-    \normalfont
-    \ifnum \c@secnumdepth >\m@ne
-      \Large\headfont\prepartname\thepart\postpartname
-      \par\nobreak
-    \fi
-    \huge \headfont\partheadfont #2%
-    \markboth{}{}\par}%
-  \nobreak
-  \vskip 3ex
-  \@afterheading%
+  \if@partpages
+    {\parindent\z@
+      \raggedright
+      \interlinepenalty \@M
+      \normalfont
+      \ifnum \c@secnumdepth >\m@ne
+        \Large\headfont\prepartname\thepart\postpartname
+        \par\nobreak
+      \fi
+      \huge \headfont\partheadfont #2%
+      \par}%
+    \nobreak
+    \vskip 3ex
+    \@afterheading%
+  \fi
+  \markboth{}{}%
   \gdef\@partname{#1}}
 %</!book>
 %    \end{macrocode}
@@ -3064,16 +3087,18 @@
     \addcontentsline{toc}{part}{#1}%
   \fi
   \markboth{}{}%
-  {\centering
-    \interlinepenalty \@M
-    \normalfont
-    \ifnum \c@secnumdepth >-2\relax
-      \huge\headfont\prepartname\thepart\postpartname
-      \par\vskip20\p@
-    \fi
-    \Huge \headfont\partheadfont #2\par}%
-  \gdef\@partname{#1}
-  \@endpart}
+  \if@partpages
+    {\centering
+      \interlinepenalty \@M
+      \normalfont
+      \ifnum \c@secnumdepth >-2\relax
+        \huge\headfont\prepartname\thepart\postpartname
+        \par\vskip20\p@
+      \fi
+      \Huge \headfont\partheadfont #2\par}%
+    \@endpart%
+  \fi
+  \gdef\@partname{#1}}
 %</book>
 %    \end{macrocode}
 % \end{macro}
@@ -3084,24 +3109,28 @@
 %
 %    \begin{macrocode}
 %<*!book>
-\def\@spart#1{{%
+\def\@spart#1{
+  \if@partpages{%
     \parindent \z@ \raggedright
     \interlinepenalty \@M
     \normalfont
     \huge \headfont\partheadfont #1\par}%
-  \nobreak
-  \vskip 3ex
-  \@afterheading%
+    \nobreak
+    \vskip 3ex
+    \@afterheading%
+  \fi
   \gdef\@partname{#1}}
 %</!book>
 %<*book>
-\def\@spart#1{{%
+\def\@spart#1{
+  \if@partpages{%
     \centering
     \interlinepenalty \@M
     \normalfont
     \Huge \headfont\partheadfont #1\par}%
-  \gdef\@partname{#1}
-  \@endpart}
+    \@endpart%
+  \fi
+  \gdef\@partname{#1}}
 %</book>
 %    \end{macrocode}
 % \end{macro}
