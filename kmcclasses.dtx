@@ -2714,7 +2714,7 @@
         \ifnum #2>\c@secnumdepth \else
           \protect\numberline{\csname the#1\endcsname}%
         \fi
-        #7}}% 目次にフルネームを載せるなら #8
+        #7\@makesectionauthortoc}}% 目次にフルネームを載せるなら #8
   \else
     \begingroup
       \interlinepenalty \@M % 下から移動
@@ -2728,7 +2728,7 @@
       \ifnum #2>\c@secnumdepth \else
         \protect\numberline{\csname the#1\endcsname}%
       \fi
-      #7}% 目次にフルネームを載せるならここは #8
+      #7\@makesectionauthortoc}% 目次にフルネームを載せるならここは #8
   \fi
   \@xsect{#5}}
 %    \end{macrocode}
@@ -2765,6 +2765,9 @@
   \if@slide
     {\vskip-6pt\maybeblue\hrule height0pt depth1pt\vskip7pt\relax}%
   \fi
+  \@makesectionauthor%
+  \global\let\@sectionauthor\relax%
+  \global\let\@sectionauthortoc\relax%
   \par  % 2000-12-18
   \ignorespaces}
 \def\@ssect#1#2#3#4#5{%
@@ -3379,6 +3382,55 @@
 \fi
 %    \end{macrocode}
 %
+% \end{macro}
+%
+% \begin{macro}{\sectionauthor}
+%
+% 節の著者を設定します。
+%
+%    \begin{macrocode}
+\newcommand*{\sectionauthor}[2][\relax]{
+  \gdef\@sectionauthor{#2}%
+  \ifx\relax#1
+    \gdef\@sectionauthortoc{#2}%
+  \else
+    \gdef\@sectionauthortoc{#1}%
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@sectionauthor}
+% \begin{macro}{\@sectionauthortoc}
+%
+% 節の著者を記憶します。
+%
+%    \begin{macrocode}
+\let\@sectionauthor\relax
+\let\@sectionauthortoc\relax
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\@makesectionauthor}
+%
+% 節の著者を出力します。
+%
+%    \begin{macrocode}
+\def\@makesectionauthor{
+  \ifx\relax\@sectionauthor\else
+    {\flushright\normalfont\large\headfont\@sectionauthor\endflushright\par\nobreak}%
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@makesectionauthortoc}
+%
+% 目次用に節の著者を出力します。
+%
+%    \begin{macrocode}
+\def\@makesectionauthortoc{
+  \ifx\relax\@sectionauthortoc\else\space(\@sectionauthortoc)\fi}
+%    \end{macrocode}
 % \end{macro}
 %
 % \begin{macro}{\subsection}
