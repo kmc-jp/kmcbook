@@ -3389,7 +3389,7 @@
 % 節の著者を設定します。
 %
 %    \begin{macrocode}
-\newcommand*{\sectionauthor}[2][\relax]{
+\newcommand*{\sectionauthor}[2][\relax]{%
   \gdef\@sectionauthor{#2}%
   \ifx\relax#1
     \gdef\@sectionauthortoc{#2}%
@@ -3416,9 +3416,9 @@
 % 節の著者を出力します。
 %
 %    \begin{macrocode}
-\def\@makesectionauthor{
+\def\@makesectionauthor{%
   \ifx\relax\@sectionauthor\else
-    {\flushright\normalfont\large\headfont\@sectionauthor\endflushright\par\nobreak}%
+    {\flushright\normalfont\large\headfont\@sectionauthor\endflushright}%
   \fi}
 %    \end{macrocode}
 % \end{macro}
