@@ -1,0 +1,9 @@
+box: ubuntu:xenial
+build:
+  steps:
+    - script:
+        name: install-packages
+        code: apt-get update -qq && apt-get install -y --no-install-recommends texlive-lang-japanese make
+    - script:
+        name: make
+        code: make
