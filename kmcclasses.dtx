@@ -1273,6 +1273,7 @@
 % \begin{macro}{\widebaselines}
 %
 % 欧文用に行間を狭くする論理変数と，それを真・偽にするためのコマンドです。
+<<<<<<< HEAD
 %
 % [2003-06-30] 数式に入るところで |\narrowbaselines|
 % を実行しているので |\abovedisplayskip| 等が初期化
@@ -3447,6 +3448,9 @@
     {\Cvs \@plus.5\Cdp \@minus.2\Cdp}% 前アキ
     {.5\Cvs \@plus.3\Cdp}% 後アキ
     {\normalfont\large\headfont\subsectionheadfont}}
+=======
+    {\normalfont\large\headfont}}
+>>>>>>> modify-thebibliography
 \fi
 %    \end{macrocode}
 %
@@ -4766,8 +4770,7 @@
   \subsubsection*{\refname}\@mkboth{\refname}{\refname}%
   \vspace{0.5\baselineskip}
 %</kiyou>
-%<book>  \chapter*{\bibname}\@mkboth{\bibname}{}%
-%<book>  \addcontentsline{toc}{chapter}{\bibname}%
+%<book>  \section*{\bibname}\@mkboth{\bibname}{}%
    \list{\@biblabel{\@arabic\c@enumiv}}%
         {\settowidth\labelwidth{\@biblabel{#1}}%
          \leftmargin\labelwidth
